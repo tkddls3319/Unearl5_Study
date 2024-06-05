@@ -27,16 +27,15 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-
-	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<class UCapsuleComponent> CapsuleComponent;
-	
-	UPROPERTY(Category = Character, VisibleAnywhere, BlueprintReadOnly)
+
+	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<class USkeletalMeshComponent> Mesh;
 
-	UPROPERTY( VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<class USpringArmComponent> SpringArm;
 
-	UPROPERTY( VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<class UCameraComponent> Camera;
 };

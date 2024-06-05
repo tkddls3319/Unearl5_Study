@@ -19,15 +19,19 @@ AR1Pawn::AR1Pawn()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
 	Mesh->SetupAttachment(CapsuleComponent);
 	Mesh->SetRelativeLocationAndRotation(FVector(0, 0, -88), FRotator(0, -90, 0));
+	//
 
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponenet"));
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	SpringArm->SetupAttachment(CapsuleComponent);
 	SpringArm->TargetArmLength = 700.f;
 
+
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
+
 }
-// Called when the game starts or whe
+
+// Called when the game starts or when spawned
 void AR1Pawn::BeginPlay()
 {
 	Super::BeginPlay();
