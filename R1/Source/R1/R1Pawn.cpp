@@ -22,7 +22,6 @@ AR1Pawn::AR1Pawn()
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponenet"));
 	SpringArm->SetupAttachment(CapsuleComponent);
-
 	SpringArm->TargetArmLength = 700.f;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
