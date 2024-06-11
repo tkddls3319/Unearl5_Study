@@ -7,7 +7,7 @@
 #include "R1PlayerController.generated.h"
 
 struct FInputActionValue;
-
+class UNiagaraSystem;
 /**
  * 
  */
@@ -24,12 +24,18 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
-	void Input_Move(const FInputActionValue& InputValue);
-	void Input_Turn(const FInputActionValue& InputValue);
-	void Input_Jump(const FInputActionValue& InputValue);
-	void Input_Attack(const FInputActionValue& InputValue);
+	void OnInputStarted();
+	void OnSetDestinationTriggered();
+	void OnSetDestinationReleased();
 
-protected:
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<class UAnimMontage> AttackMontage;
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	float ShortPressThreshold = 0.3f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	TObjectPtr< UNiagaraSystem> FXCursor;
+
+private:
+	FVector CachedDestination;//목적지
+	float FollowTime;
 };
