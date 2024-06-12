@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "R1Define.h"
 #include "R1PlayerController.generated.h"
 
 struct FInputActionValue;
@@ -25,11 +26,14 @@ protected:
 	virtual void PlayerTick(float DeltaTime) override;
 private:
 	void TickCursorTrace();
-
+	void ChaseTargetAndAttack();
 private:
 	void OnInputStarted();
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
+
+	ECreatureState GetCreatureState();
+	void SetCreatureState(ECreatureState InState);
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
@@ -45,8 +49,14 @@ private:
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<class AR1Character> TargetActer;
+	TObjectPtr<class AR1Character> TargetActor;
 
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<class AR1Character> HighlightActor;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<class UAnimMontage> AttackMontage;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<class AR1Player> R1Player;
 };
