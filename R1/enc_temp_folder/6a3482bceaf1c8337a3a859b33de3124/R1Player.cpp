@@ -32,6 +32,7 @@ AR1Player::AR1Player()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	//GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 }
+
 void AR1Player::BeginPlay()
 {
 	Super::BeginPlay();
