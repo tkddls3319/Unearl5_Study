@@ -32,6 +32,8 @@ void AR1Character::HandleGamplayEvent(FGameplayTag EventTag)
 void AR1Character::Highlight()
 {
 	bHighlighted = true;
+	GetMesh()->SetRenderCustomDepth(true);
+	GetMesh()->SetCustomDepthStencilValue(250);
 }
 
 void AR1Character::UnHighlight()
