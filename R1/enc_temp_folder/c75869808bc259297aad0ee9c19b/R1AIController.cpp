@@ -17,7 +17,7 @@ void AR1AIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*FVector Dest = { 0, 0, 0, };
+	FVector Dest = { 0, 0, 0, };
 
 	FAIMoveRequest MoveRequest;
 	MoveRequest.SetGoalLocation(Dest);
@@ -35,7 +35,7 @@ void AR1AIController::BeginPlay()
 			const FVector& Location = Point.Location; DrawDebugSphere(GetWorld(), Location, 12.f, 12, FColor::Green, false, 10.0f);
 			DrawDebugSphere(GetWorld(), Location, 12.f, 12, FColor::Green, false, 10.0f);
 		}
-	}*/
+	}
 }
 
 void AR1AIController::Tick(float DeltaTime)
