@@ -23,7 +23,8 @@ public class R1 : ModuleRules
 			"GameplayTags",
 			"NavigationSystem",
 			"AIModule",
-			"Niagara"
+			"Niagara",
+			"UMG"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

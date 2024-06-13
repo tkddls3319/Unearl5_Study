@@ -36,7 +36,6 @@ public:
 	virtual void OnDamaged(int32 Damage, TObjectPtr<AR1Character> Attacket);
 	virtual void OnDead(TObjectPtr<AR1Character> Attacket);
 
-	void RefreshHpBarRatio();
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;

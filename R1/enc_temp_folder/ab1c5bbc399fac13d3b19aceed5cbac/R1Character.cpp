@@ -7,7 +7,6 @@
 #include "Components/CapsuleComponent.h"
 #include "R1Define.h"
 #include "Components/WidgetComponent.h"
-#include "UI/R1HpBarWidget.h"
 
 AR1Character::AR1Character()
 {
@@ -17,20 +16,19 @@ AR1Character::AR1Character()
 	HpBarComponent->SetupAttachment(GetRootComponent());
 
 
-	ConstructorHelpers::FClassFinder<UUserWidget> HealthBarWidgetClass(TEXT("/Script/CoreUObject.Class'/Script/R1.R1HpBarWidget_C'"));
+	ConstructorHelpers::FClassFinder<UUserWidget> HealthBarWidgetClass(TEXT(""));
 	if (HealthBarWidgetClass.Succeeded())
 	{
 		HpBarComponent->SetWidgetClass(HealthBarWidgetClass.Class);
 		HpBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
 		HpBarComponent->SetDrawAtDesiredSize(true);
-		HpBarComponent->SetRelativeLocation(FVector(0, 0, 100));
 	}
 }
 
 void AR1Character::BeginPlay()
 {
 	Super::BeginPlay();
-	RefreshHpBarRatio();
+	
 }
 
 void AR1Character::Tick(float DeltaTime)
@@ -63,8 +61,7 @@ void AR1Character::OnDamaged(int32 Damage, TObjectPtr<AR1Character> Attacket)
 		OnDead(Attacket);
 	}
 
-	RefreshHpBarRatio();
-	//D(FString::Printf(TEXT("%d"), Hp));
+	D(FString::Printf(TEXT("%d"), Hp));
 }
 
 void AR1Character::OnDead(TObjectPtr<AR1Character> Attacket)
@@ -73,15 +70,5 @@ void AR1Character::OnDead(TObjectPtr<AR1Character> Attacket)
 		return;
 
 	CreatureState = ECreatureState::Dead;
-}
-
-void AR1Character::RefreshHpBarRatio()
-{
-	if (HpBarComponent)
-	{
-		float Ratio = static_cast<float>(Hp) / MaxHp;
-		UR1HpBarWidget* HpBar = Cast<UR1HpBarWidget>(HpBarComponent->GetUserWidgetObject());
-		HpBar->SetHpRatio(Ratio);
-	}
 }
 
