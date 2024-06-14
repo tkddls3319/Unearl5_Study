@@ -26,17 +26,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void HandleGamplayEvent(FGameplayTag EventTag);
+	virtual void HandleGameplayEvent(FGameplayTag EventTag);
 
 public:
-
 	virtual void Highlight() override;
 	virtual void UnHighlight() override;
 
-	virtual void OnDamaged(int32 Damage, TObjectPtr<AR1Character> Attacket);
-	virtual void OnDead(TObjectPtr<AR1Character> Attacket);
+	virtual void OnDamaged(int32 Damage, TObjectPtr<AR1Character> Attacker);
+	virtual void OnDead(TObjectPtr<AR1Character> Attacker);
 
 	void RefreshHpBarRatio();
+
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
@@ -47,13 +47,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Hp = 100;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 MaxHp = 100;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 FinalDamage = 10;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<class UWidgetComponent> HpBarComponent;
-
 };

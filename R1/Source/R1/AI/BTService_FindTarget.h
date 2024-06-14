@@ -7,13 +7,13 @@
 #include "BTService_FindTarget.generated.h"
 
 /**
- *
+ * 
  */
 UCLASS()
 class R1_API UBTService_FindTarget : public UBTService
 {
 	GENERATED_BODY()
-
+	
 public:
 	UBTService_FindTarget();
 

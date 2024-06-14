@@ -22,8 +22,7 @@ public:
 public:
 	void SetHpRatio(float Ratio);
 
-
 protected:
-	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
+	UPROPERTY(meta=(BindWidget), BlueprintReadWrite)
 	TObjectPtr<class UProgressBar> HpBar;
 };

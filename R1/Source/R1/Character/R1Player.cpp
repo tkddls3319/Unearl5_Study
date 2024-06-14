@@ -1,30 +1,28 @@
-
-
-
 #include "Character/R1Player.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Player/R1PlayerController.h"
 #include "Components/CapsuleComponent.h"
+#include "Player/R1PlayerController.h"
 
 AR1Player::AR1Player()
 {
-	//카메라시점 고정
+	// Don't rotate character to camera direction
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	// Configure character movement
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 	SpringArm->SetupAttachment(GetCapsuleComponent());
 
-	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(SpringArm);
-	Camera->bUsePawnControlRotation = false;//카메라 못움직이게 
-	
+	Camera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
 	SpringArm->TargetArmLength = 800.f;
 	SpringArm->SetRelativeRotation(FRotator(-60, 0, 0));
 
@@ -33,30 +31,29 @@ AR1Player::AR1Player()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	//GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 }
+
 void AR1Player::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnBeginOverlap);
 }
 
 void AR1Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
-void AR1Player::HandleGamplayEvent(FGameplayTag EventTag)
+void AR1Player::HandleGameplayEvent(FGameplayTag EventTag)
 {
-	AR1PlayerController* PC = Cast< AR1PlayerController>(GetController());
-
+	AR1PlayerController* PC = Cast<AR1PlayerController>(GetController());
 	if (PC)
 	{
-		PC->HandleGamplayEvent(EventTag);
+		PC->HandleGameplayEvent(EventTag);
 	}
 }
 
-void AR1Player::OnBeginOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AR1Player::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Log, TEXT("OnBeginOverlap"));
 }
-

@@ -13,10 +13,8 @@ UCLASS()
 class R1_API AR1Monster : public AR1Character
 {
 	GENERATED_BODY()
-	
 
 public:
-	// Sets default values for this character's properties
 	AR1Monster();
 
 protected:
@@ -26,5 +24,4 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

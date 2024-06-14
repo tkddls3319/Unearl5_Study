@@ -7,7 +7,7 @@
 #include "BTDecorator_CanAttack.generated.h"
 
 /**
- *
+ * 
  */
 UCLASS()
 class R1_API UBTDecorator_CanAttack : public UBTDecorator

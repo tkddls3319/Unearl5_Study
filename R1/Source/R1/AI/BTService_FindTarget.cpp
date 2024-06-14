@@ -21,7 +21,7 @@ void UBTService_FindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* N
 	{
 		return;
 	}
-
+	
 	UWorld* World = LocalPawn->GetWorld();
 	if (World == nullptr)
 	{

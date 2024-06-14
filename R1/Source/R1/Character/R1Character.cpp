@@ -9,15 +9,16 @@
 #include "Components/WidgetComponent.h"
 #include "UI/R1HpBarWidget.h"
 
+// Sets default values
 AR1Character::AR1Character()
 {
+ 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	HpBarComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
 	HpBarComponent->SetupAttachment(GetRootComponent());
 
-
-	ConstructorHelpers::FClassFinder<UUserWidget> HealthBarWidgetClass(TEXT("/Script/CoreUObject.Class'/Script/R1.R1HpBarWidget_C'"));
+	ConstructorHelpers::FClassFinder<UUserWidget> HealthBarWidgetClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprints/UI/WBP_HpBar.WBP_HpBar_C'"));
 	if (HealthBarWidgetClass.Succeeded())
 	{
 		HpBarComponent->SetWidgetClass(HealthBarWidgetClass.Class);
@@ -27,50 +28,55 @@ AR1Character::AR1Character()
 	}
 }
 
+// Called when the game starts or when spawned
 void AR1Character::BeginPlay()
 {
 	Super::BeginPlay();
 	RefreshHpBarRatio();
 }
 
+// Called every frame
 void AR1Character::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AR1Character::HandleGamplayEvent(FGameplayTag EventTag)
+void AR1Character::HandleGameplayEvent(FGameplayTag EventTag)
 {
 }
 
 void AR1Character::Highlight()
 {
 	bHighlighted = true;
-	GetMesh()->SetRenderCustomDepth(true);//postprocess 적용
-	GetMesh()->SetCustomDepthStencilValue(250);//postprocess 적용
+	GetMesh()->SetRenderCustomDepth(true);
+	GetMesh()->SetCustomDepthStencilValue(250);
 }
 
 void AR1Character::UnHighlight()
 {
 	bHighlighted = false;
+	GetMesh()->SetRenderCustomDepth(false);
 }
 
-void AR1Character::OnDamaged(int32 Damage, TObjectPtr<AR1Character> Attacket)
+void AR1Character::OnDamaged(int32 Damage, TObjectPtr<AR1Character> Attacker)
 {
 	Hp = FMath::Clamp(Hp - Damage, 0, MaxHp);
 	if (Hp == 0)
 	{
-		OnDead(Attacket);
+		OnDead(Attacker);
 	}
 
-	RefreshHpBarRatio();
 	//D(FString::Printf(TEXT("%d"), Hp));
+	RefreshHpBarRatio();
 }
 
-void AR1Character::OnDead(TObjectPtr<AR1Character> Attacket)
+void AR1Character::OnDead(TObjectPtr<AR1Character> Attacker)
 {
 	if (CreatureState == ECreatureState::Dead)
+	{
 		return;
+	}
 
 	CreatureState = ECreatureState::Dead;
 }
@@ -84,4 +90,3 @@ void AR1Character::RefreshHpBarRatio()
 		HpBar->SetHpRatio(Ratio);
 	}
 }
-

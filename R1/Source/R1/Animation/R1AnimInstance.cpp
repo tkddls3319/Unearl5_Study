@@ -7,7 +7,7 @@
 #include "Character/R1Player.h"
 
 UR1AnimInstance::UR1AnimInstance(const FObjectInitializer& ObjectInitializer)
-	:Super(ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 
 }
@@ -25,7 +25,7 @@ void UR1AnimInstance::NativeInitializeAnimation()
 void UR1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
-	
+
 	if (Character == nullptr)
 		return;
 
@@ -37,5 +37,4 @@ void UR1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	bShouldMove = (GroundSpeed > 3.f && MovementComponent->GetCurrentAcceleration() != FVector::ZeroVector);
 	bIsFalling = MovementComponent->IsFalling();
-
 }

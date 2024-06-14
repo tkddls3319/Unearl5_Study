@@ -13,7 +13,7 @@ public class R1 : ModuleRules
 			"R1",
 		});
 	
-		PublicDependencyModuleNames.AddRange(new string[]
+		PublicDependencyModuleNames.AddRange(new string[] 
 		{ 
 			"Core", 
 			"CoreUObject", 

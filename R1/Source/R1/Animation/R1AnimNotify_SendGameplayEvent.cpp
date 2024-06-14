@@ -5,7 +5,7 @@
 #include "Character/R1Character.h"
 
 UR1AnimNotify_SendGameplayEvent::UR1AnimNotify_SendGameplayEvent(const FObjectInitializer& ObjectInitializer)
-	:Super(ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 
 }
@@ -15,10 +15,8 @@ void UR1AnimNotify_SendGameplayEvent::Notify(USkeletalMeshComponent* MeshComp, U
 	Super::Notify(MeshComp, Animation, EventReference);
 
 	AR1Character* LocalCharacter = Cast<AR1Character>(MeshComp->GetOwner());
-
 	if (LocalCharacter)
 	{
-		LocalCharacter->HandleGamplayEvent(EventTag);
+		LocalCharacter->HandleGameplayEvent(EventTag);
 	}
 }
-

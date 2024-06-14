@@ -7,13 +7,13 @@
 #include "BTTaskNode_FindPatrolPos.generated.h"
 
 /**
- *
+ * 
  */
 UCLASS()
 class R1_API UBTTaskNode_FindPatrolPos : public UBTTaskNode
 {
 	GENERATED_BODY()
-
+	
 public:
 	UBTTaskNode_FindPatrolPos();
 

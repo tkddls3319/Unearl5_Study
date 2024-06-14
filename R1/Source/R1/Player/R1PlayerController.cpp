@@ -8,9 +8,8 @@
 #include "System/R1AssetManager.h"
 #include "Data/R1InputData.h"
 #include "R1GameplayTags.h"
-#include "Character/R1Character.h"
-#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Character/R1Player.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
 
@@ -48,6 +47,7 @@ void AR1PlayerController::SetupInputComponent()
 
 		auto Action1 = InputData->FindInputActionByTag(R1GameplayTags::Input_Action_SetDestination);
 
+		// Setup mouse input events
 		EnhancedInputComponent->BindAction(Action1, ETriggerEvent::Started, this, &ThisClass::OnInputStarted);
 		EnhancedInputComponent->BindAction(Action1, ETriggerEvent::Triggered, this, &ThisClass::OnSetDestinationTriggered);
 		EnhancedInputComponent->BindAction(Action1, ETriggerEvent::Completed, this, &ThisClass::OnSetDestinationReleased);
@@ -69,7 +69,7 @@ void AR1PlayerController::PlayerTick(float DeltaTime)
 	ChaseTargetAndAttack();
 }
 
-void AR1PlayerController::HandleGamplayEvent(FGameplayTag EventTag)
+void AR1PlayerController::HandleGameplayEvent(FGameplayTag EventTag)
 {
 	if (EventTag.MatchesTag(R1GameplayTags::Event_Montage_Attack))
 	{
@@ -83,7 +83,9 @@ void AR1PlayerController::HandleGamplayEvent(FGameplayTag EventTag)
 void AR1PlayerController::TickCursorTrace()
 {
 	if (bMousePressed)
+	{
 		return;
+	}
 
 	FHitResult OutCursorHit;
 	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, OUT OutCursorHit) == false)
@@ -94,7 +96,7 @@ void AR1PlayerController::TickCursorTrace()
 	AR1Character* LocalHighlightActor = Cast<AR1Character>(OutCursorHit.GetActor());
 	if (LocalHighlightActor == nullptr)
 	{
-		//주시하고 있는 애가 없다.
+		// 있었는데 없어짐.
 		if (HighlightActor)
 		{
 			HighlightActor->UnHighlight();
@@ -104,16 +106,18 @@ void AR1PlayerController::TickCursorTrace()
 	{
 		if (HighlightActor)
 		{
-			//원래있었는데 다른애
+			// 원래 있었는데, 다른 애였음.
 			if (HighlightActor != LocalHighlightActor)
 			{
 				HighlightActor->UnHighlight();
 				LocalHighlightActor->Highlight();
 			}
+
+			// 동일한 애라면 무시.
 		}
 		else
 		{
-			//원래 아무것도없음
+			// 원래 없었고 새로운 타겟.
 			LocalHighlightActor->Highlight();
 		}
 	}
@@ -133,9 +137,7 @@ void AR1PlayerController::ChaseTargetAndAttack()
 		return;
 	}
 
-
 	FVector Direction = TargetActor->GetActorLocation() - R1Player->GetActorLocation();
-
 	if (Direction.Length() < 250.f)
 	{
 		GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Cyan, TEXT("Attack"));
@@ -144,7 +146,7 @@ void AR1PlayerController::ChaseTargetAndAttack()
 		{
 			if (bMousePressed)
 			{
-				//if(GetCharacter()->GetMesh()->GetAnimInstance()->Montage_IsPlaying(nullptr) == false)
+				//if (GetCharacter()->GetMesh()->GetAnimInstance()->Montage_IsPlaying(nullptr) == false)
 				//TargetActor->OnDamaged(R1Player->FinalDamage, R1Player);
 
 				FRotator Rotator = UKismetMathLibrary::FindLookAtRotation(R1Player->GetActorLocation(), TargetActor->GetActorLocation());
@@ -175,27 +177,33 @@ void AR1PlayerController::OnInputStarted()
 	TargetActor = HighlightActor;
 }
 
+// Triggered every frame when the input is held down
 void AR1PlayerController::OnSetDestinationTriggered()
 {
-	if(GetCreatureState() == ECreatureState::Skill)
+	if (GetCreatureState() == ECreatureState::Skill)
 	{
 		return;
 	}
+
 	if (TargetActor)
 	{
 		return;
 	}
 
+	// We flag that the input is being pressed
 	FollowTime += GetWorld()->GetDeltaSeconds();
 
+	// We look for the location in the world where the player has pressed the input
 	FHitResult Hit;
-	bool bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, OUT Hit);//마우스클릭위치
+	bool bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, OUT Hit);
 
+	// If we hit a surface, cache the location
 	if (bHitSuccessful)
 	{
 		CachedDestination = Hit.Location;
 	}
 
+	// Move towards mouse pointer or touch
 	if (R1Player)
 	{
 		FVector WorldDirection = (CachedDestination - R1Player->GetActorLocation()).GetSafeNormal();
@@ -226,6 +234,7 @@ void AR1PlayerController::OnSetDestinationReleased()
 	FollowTime = 0.f;
 }
 
+
 ECreatureState AR1PlayerController::GetCreatureState()
 {
 	if (R1Player)
@@ -238,7 +247,8 @@ ECreatureState AR1PlayerController::GetCreatureState()
 
 void AR1PlayerController::SetCreatureState(ECreatureState InState)
 {
-	R1Player->CreatureState = InState;
+	if (R1Player)
+	{
+		R1Player->CreatureState = InState;
+	}
 }
-
-
