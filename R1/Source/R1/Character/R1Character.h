@@ -7,10 +7,11 @@
 #include "Interface/R1HighlightInterface.h"
 #include "R1Define.h"
 #include "GameplayTagContainer.h"
+#include "AbilitySystemInterface.h"
 #include "R1Character.generated.h"
 
 UCLASS()
-class R1_API AR1Character : public ACharacter, public IR1HighlightInterface
+class R1_API AR1Character : public ACharacter, public IR1HighlightInterface, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -36,6 +37,10 @@ public:
 	virtual void OnDead(TObjectPtr<AR1Character> Attacker);
 
 	void RefreshHpBarRatio();
+	
+public:
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void InitAbilitySystem();
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
@@ -57,4 +62,8 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<class UWidgetComponent> HpBarComponent;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<class UR1AbilitySystemComponent> AbilitySystemComponent;
 };
