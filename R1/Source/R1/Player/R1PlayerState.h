@@ -8,6 +8,7 @@
 #include "R1PlayerState.generated.h"
 
 class UR1AbilitySystemComponent;
+class UR1PlayerSet;
 /**
  * 
  */
@@ -21,9 +22,12 @@ public:
 
 public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	UR1PlayerSet* GetR1PlayerSet() const;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UR1AbilitySystemComponent> AbilitySystemComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UR1PlayerSet> PlayerSet;
 };

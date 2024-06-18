@@ -6,7 +6,7 @@
 #include "Player/R1PlayerController.h"
 #include "AbilitySystem/R1AbilitySystemComponent.h"
 #include "Player/R1PlayerState.h"
-
+#include "AbilitySystem/AttributeSet/R1PlayerSet.h"
 AR1Player::AR1Player()
 {
 	// Don't rotate character to camera direction
@@ -54,6 +54,8 @@ void AR1Player::InitAbilitySystem()
 	{
 		AbilitySystemComponent = Cast<UR1AbilitySystemComponent>(PS->GetAbilitySystemComponent());
 		AbilitySystemComponent->InitAbilityActorInfo(PS, this);
+
+		AttributeSet = PS->GetR1PlayerSet();
 	}
 }
 
