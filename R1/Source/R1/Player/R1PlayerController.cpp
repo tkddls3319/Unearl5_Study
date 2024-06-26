@@ -142,8 +142,11 @@ void AR1PlayerController::ChaseTargetAndAttack()
 	{
 		GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Cyan, TEXT("Attack"));
 
+
 		if (AttackMontage)
 		{
+			//GetCharacter()->PlayAnimMontage(AttackMontage);
+
 			if (bMousePressed)
 			{
 				//if (GetCharacter()->GetMesh()->GetAnimInstance()->Montage_IsPlaying(nullptr) == false)

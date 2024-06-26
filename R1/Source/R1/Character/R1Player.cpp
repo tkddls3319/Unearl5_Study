@@ -38,6 +38,9 @@ void AR1Player::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//충돌이벤트
+	//GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnBeginOverlap);
+
 	if (TestEffect && AbilitySystemComponent)
 	{
 		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
